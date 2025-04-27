@@ -1,68 +1,109 @@
-🤖 Self-Balancing Robot Using Arduino
-Introduction
-This project presents the development of a two-wheeled self-balancing robot built on an Arduino platform. By utilizing a PID controller and a complementary filter for sensor data fusion, the robot continuously adjusts its motor outputs to maintain vertical stability. This work explores key areas in control systems, robotics, and sensor integration, focusing on practical implementation and performance optimization.
 
-🚀 Main Features
-🔍 Sensor Fusion
-Integrated an MPU6050 Inertial Measurement Unit (IMU) combining accelerometer and gyroscope sensors.
+===================================
+BalancingWii rev 1.0 
+===================================
 
-Applied a complementary filter to achieve accurate tilt angle estimation.
+Autumn... More time to keep soldering iron and do something cool! So let's continue! :)
 
-🎯 PID-Based Control
-Manually tuned PID parameters to achieve stable and responsive balancing behavior.
+This is stable 1.0 release of balancing robot (based on modified/extended MultiWii 2.3 firmware).
 
-🛠 Mechanical and System Modeling
-Created a dynamic mathematical model of the robot.
+New features:
+ - Fall down?! New auto rise (stand up) function! (can be activated via box in GUI). 
+   Now it's also possible to stand up manually when it's fall down.
+ - Position hold (can be activated via box in GUI). 
+   Try to play, how it returns when  you are pushing/kicking the robot.
+ - Possibility to control/steer from Android device by MultiWii EZ-GUI tool (go to Config -> Advanced -> Model control New) 
+ - More stability and speed accordingly (see in video!)
+ - Predefined PIDs
+ - Simple mode for newcomers
+ - Set of code refactorings and cleaning.
 
-Simulated system behavior using Simulink Simscape to estimate initial PID values.
+Apps:
+https://play.google.com/store/apps/details?id=ru.shokurov.mspcontrol
+https://play.google.com/store/apps/details?id=com.ezio.multiwii
 
-⚡ Hardware Components
-Arduino microcontroller
+New video: 
+http://youtu.be/038e2j9nE3M
 
-MPU6050 IMU sensor
+Blogs:
+- http://forum.rcdesign.ru/blogs/83206/blog19661.html
+- http://www.multiwii.com/forum/viewtopic.php?f=7&t=4787
 
-GA37-520 DC geared motors
+Enjoy! ;)  
 
-TB6612FNG dual motor driver
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NQ6D8YEWUV88S)
 
-Li-ion rechargeable battery
 
-Custom-designed steel and acrylic chassis
+===================================
+BalancingWii rev 0.1 
+===================================
 
-📈 Project Development Workflow
-🏗 Hardware Construction
-Assembled and mounted components onto a custom-fabricated chassis ensuring mechanical stability.
+Hi all! 
 
-💻 Software Implementation
-Programmed the Arduino to execute a PID control loop for balance correction.
+This is the balancing robot based on modified/extended MultiWii 2.3 firmware.
 
-Developed a complementary filter algorithm to fuse accelerometer and gyroscope data.
+Video: 
+http://youtu.be/U8bBna9iWCU
 
-🔧 Testing and Calibration
-Performed iterative tuning of the PID controller through experimental testing.
+Blogs:
+- http://forum.rcdesign.ru/blogs/83206/blog18515.html
+- http://www.multiwii.com/forum/viewtopic.php?f=7&t=4787
 
-Conducted reliability tests to validate stability under different operating conditions.
 
-✅ Results
-Consistent Stability:
-Successfully maintained upright balance using only tilt angle feedback.
+Hardware:
+- Arduino nano (atmega328p)
+- mpu6050 gyro-accelerometer (GY_521)
+- any RC receiver with CPPM (ppmsum) output OR serial Bluetooth module like HC-05
+- A4988 motor drivers with 1/8 microstepping configuration (see http://www.pololu.com/product/1182/ for details)
+- Nema 17 stepper motors
+- 1/8 Buggy Wheels
+- Buzzer 
 
-Accurate Control:
-Achieved precise and smooth motor control through PID tuning.
 
-Robust Performance:
-Demonstrated reliable operation across various surfaces and disturbances.
+Pinout for Arduino nano (atmega328p):
 
-🔮 Future Enhancements
-Enhanced Sensor Fusion:
-Implement a Kalman filter for superior noise reduction and angle estimation.
+- A0 - V_BATPIN: after the resistor divisor we should get [0V;5V]->[0;1023] on analogue V_BATPIN with R1=33k and R2=51k, 
+     i.e. (+12v)~51k~(A0 pin)~33k~(GND)
+- A2 - BUZZERPIN
 
-Advanced Control Algorithms:
-Explore adaptive control or model predictive control (MPC) for better system dynamics.
+I2C:
+- A4 - SDA
+- A5 - SCL
 
-Navigation and Obstacle Avoidance:
-Integrate ultrasonic sensors to enable autonomous navigation and obstacle detection capabilities.
+RC control:
+- D2 - CPPM (PPM_SUM)
 
-✨ Conclusion
-This project serves as a hands-on demonstration of embedded system development, real-time control strategies, and robotic balance, providing a strong foundation for future research in autonomous mobile systems.
+Motor driver pins:
+- D5 - STEP1 (PORTD 5)
+- D6 - STEP2 (PORTD 6)
+- D7 - DIR1 (PORTD 7)
+- D8 - DIR2 (PORTB 0)
+- D4 - ENABLE (for both)
 
+If you look to the tail of the robot:
+- right motor = STEP1 & DIR1
+- left motor  = STEP2 & DIR2
+
+   
+Also see for new defines added with this project for robot setup:
+    
+  #define CURRENT_AXIS    PITCH       // possible to choose ROLL or PITCH axis as current.
+  
+  //#define INVERT_CURRENT_AXIS       // invert current axis sign, i.e. instead of turning sensor board
+  
+  //#define REVERSE_MOTORS_DIRECTION  // reverse both motors direction
+
+  #define MAX_SPEED           400  // should be <= 500
+  #define MAX_TARGET_ANGLE    120  // where 10 = 1 degree, should be <= 15 degree (i.e. <= 150) 
+  #define MAX_STEERING        90   // should be <= 100 
+  
+  
+  //#define GY_521_INVERTED_BY_Z  // Chinese 6  DOF with  MPU6050, LLC, inverted/reversed by Z
+   
+
+Big thanks for the projects:
+- MultiWii - my favourite to start robotics and become in love with this!  :)
+- B-Robot https://github.com/JJulio/b-robot    
+   
+
+Enjoy! ;)
